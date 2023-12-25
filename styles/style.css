@@ -1,0 +1,267 @@
+:root {
+  --color-1: #f4eeff;
+  --color-2: #dcd6f7;
+  --color-3: #a6b1e1;
+  --color-4: #424874;
+  --color-error: #e74c3c;
+}
+
+* {
+  font-size: 16px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 600px) {
+  * {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1200px) {
+  * {
+    font-size: 14px;
+  }
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--color-1);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Login and Register */
+
+.container {
+  background-color: var(--color-2);
+  padding: 1.25rem;
+  border-radius: 0.625rem;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+form {
+  max-width: 20rem;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-4);
+}
+
+.input-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--color-3);
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid var(--color-3);
+  border-radius: 0.625rem;
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+input:invalid {
+  border-color: var(--color-error);
+}
+
+span.error-message {
+  display: block;
+  color: var(--color-error);
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+  font-weight: 300;
+}
+
+.Auth button {
+  user-select: none;
+  width: 10rem;
+  background-color: var(--color-3);
+  color: #ffffff;
+  padding: 0.625rem 1.25rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: all 100ms ease-out;
+  font-weight: 600;
+}
+
+.Auth button:hover {
+  background-color: var(--color-4);
+}
+
+p {
+  margin-top: 20px;
+  color: var(--color-3);
+  font-weight: 500;
+}
+
+a {
+  user-select: none;
+  color: var(--color-4);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Login and Register */
+
+/* Navigation bar */
+
+.navbar {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+}
+
+.logo img {
+  width: 5rem;
+  height: 5rem;
+  margin-right: 1rem;
+}
+
+.logo h1 {
+  font-size: 3rem;
+  color: var(--color-4);
+}
+
+.logo:hover {
+  text-decoration: none;
+}
+
+.actions {
+  background-color: var(--color-4);
+  padding: 0.625rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.4rem;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.user-profile img {
+  user-select: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  margin-right: 0.625rem;
+}
+
+.username {
+  color: #ffffff;
+  margin-right: 1rem;
+  font-weight: 600;
+}
+
+.menu-container {
+  user-select: none;
+  position: relative;
+}
+
+.menu-icon {
+  font-size: 2rem;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  min-width: 10rem;
+  transform: scale(0);
+  position: absolute;
+  top: 4.1rem;
+  right: 0;
+  background-color: #ffffff;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.4rem;
+  z-index: 1;
+  transition: all 100ms ease-out;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu li {
+  padding: 0.625rem;
+  border-bottom: 1px solid var(--color-2);
+  transition: background-color 100ms ease-out;
+}
+
+.dropdown-menu li:hover {
+  background-color: var(--color-2);
+}
+
+.dropdown-menu a:hover,
+.login:hover {
+  text-decoration: none;
+}
+
+.logout {
+  cursor: pointer;
+  border: none;
+  color: var(--color-4);
+  text-decoration: none;
+  background: none;
+  font-weight: 600;
+}
+
+.login {
+  user-select: none;
+  width: 6rem;
+  background-color: var(--color-3);
+  color: #ffffff;
+  padding: 0.625rem 1.25rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: all 100ms ease-out;
+  font-weight: 600;
+  text-align: center;
+}
+
+.show {
+  transform: scale(1);
+}
+/* Navigation bar */
