@@ -15,13 +15,13 @@
 
 @media (max-width: 600px) {
   * {
-    font-size: 14px;
+    font-size: 8px;
   }
 }
 
 @media (min-width: 1200px) {
   * {
-    font-size: 14px;
+    font-size: 12px;
   }
 }
 
@@ -38,15 +38,29 @@ body {
 /* Login and Register */
 
 .container {
-  background-color: var(--color-2);
+  width: 30rem;
+  background-color: #ffffff;
   padding: 1.25rem;
   border-radius: 0.625rem;
   box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
+.auth-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.auth-logo img {
+  width: 5rem;
+  height: 5rem;
+}
+
 form {
-  max-width: 20rem;
   margin: 0 auto;
 }
 

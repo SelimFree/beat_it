@@ -17,14 +17,17 @@ if ($_SESSION['authorized']) {
     <div class="Auth">
         <div class="container">
             <form action="#" method="post">
+                <div class="auth-logo">
+                    <img src="assets/logo.png" alt="Logo">
+                </div>
                 <h2>Welcome Back</h2>
                 <div class="input-group">
                     <label for="username">Email:</label>
-                    <input type="email" id="email" name="email" placeholder="john.doe@mail.com" required>
+                    <input type="email" id="email" name="email" placeholder="example@mail.com" required>
                 </div>
                 <div class="input-group">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" placeholder="wow12332" required>
+                    <input type="password" id="password" name="password" placeholder="1234..." required>
                     <?php
                     if ($_SESSION['errors']['general']) {
                     ?>
@@ -39,6 +42,9 @@ if ($_SESSION['authorized']) {
             <p>Don't have an account? <a href="register.php">Register here</a></p>
         </div>
     </div>
+    <?php
+    include("./includes/footer.php")
+    ?>
 </body>
 
 </html>
