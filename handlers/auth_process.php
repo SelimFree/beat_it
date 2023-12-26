@@ -100,12 +100,15 @@ function register($connection)
     }
 
     $query = $connection->prepare('INSERT INTO users(email, password) VALUES(?, ?)');
-    $newUser = $query->execute([$_POST[FieldType::Email], password_hash($_POST[FieldType::Password], PASSWORD_DEFAULT)]);
-    if ($newUser) {
-        $result[FieldType::Email] = $_POST[FieldType::Email];
-        $result[FieldType::UserID] = $newUser[FieldType::UserID];
-    } else {
+    try {
+        $newUser = $query->execute([$_POST[FieldType::Email], password_hash($_POST[FieldType::Password], PASSWORD_DEFAULT)]);
+        if ($newUser) {
+            $result[FieldType::Email] = $_POST[FieldType::Email];
+            $result[FieldType::UserID] = $newUser[FieldType::UserID];
+        }
+    } catch (Exception $e) {
         $errors["general"] = "Try again later";
+        $result["errors"] = $errors;
     }
     return $result;
 }

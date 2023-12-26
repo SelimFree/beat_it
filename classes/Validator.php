@@ -58,13 +58,16 @@ class Validator
     public function validateImage($files)
     {
         foreach ($files as $key => $value) {
+            if (!$this->messages[$key]) {
+                $this->messages[$key] = [];
+            }
             if ($value["error"] > 0) {
                 array_push($this->messages[$key], "" . $key . "" . ' field error: ' . $value["error"]);
             } else {
                 // Move the uploaded file to a desired directory
                 $targetDirectory = "assets/uploads/";
                 $targetFile = $targetDirectory . basename($value["name"]);
-                if (!move_uploaded_file($value["tmp_name"], "../" . $targetFile)) {
+                if (!move_uploaded_file($value["tmp_name"], $targetFile)) {
                     array_push($this->messages[$key], "" . $key . "" . ' field error: ' . "Failed to uplaod the file");
                     return;
                 }
