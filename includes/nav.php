@@ -1,5 +1,5 @@
 <nav class="navbar">
-    <a class="logo" href="/webDevelopment/beat_it">
+    <a class="logo" href="/webDevelopment/beat_it/">
         <img src="assets/logo.png" alt="Logo">
         <h1>BeatIt</h1>
     </a>
