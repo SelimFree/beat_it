@@ -8,7 +8,7 @@ include("./handlers/auth_process.php")
 ?>
 <?php
 if ($_SESSION['authorized']) {
-    header('Location: /webDevelopment/beat_it/dashboard.php');
+    header('Location: ' . $BASE_URL . 'dashboard.php');
     exit();
 }
 ?>

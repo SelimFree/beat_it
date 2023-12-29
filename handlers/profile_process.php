@@ -17,7 +17,7 @@ function avatar($connection)
     //Creating validator object
     $prevalidator = new Validator([]);
     $prevalidator->validate($_POST);
-    $articleImagePath = $prevalidator->validateImage($_FILES);
+    $avatarImagePath = $prevalidator->validateFile([$_FILES[FieldType::UserAvatar]], "avatar");
     $errors = $prevalidator->getMessages();
 
     foreach ($errors as $error) {
@@ -31,7 +31,7 @@ function avatar($connection)
     $query = $connection->prepare('UPDATE users SET avatar_url = ? WHERE id = ?');
     try {
         //Changing avatar
-        $query->execute([$articleImagePath, $_SESSION[FieldType::UserID]]);
+        $query->execute([$avatarImagePath, $_SESSION[FieldType::UserID]]);
 
         //Getting new avatar
         $query = $connection->prepare('SELECT * FROM users WHERE id = ?');
@@ -54,12 +54,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($action === 'logout') {
         session_unset();
         session_destroy();
-        header('Location: /webDevelopment/beat_it/');
+        header('Location: ' . $BASE_URL);
         exit();
     } else {
         $result = avatar($connection);
         if (!$result["errors"]) {
             $_SESSION[FieldType::UserAvatar] = $result[FieldType::UserAvatar];
+            $_SESSION['errors'] = [];
         } else {
             $_SESSION['errors'] = $result["errors"];
         }

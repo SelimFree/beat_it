@@ -7,7 +7,7 @@ include("./includes/init.php");
 include("./includes/head.php")
 ?>
 <?php
-header('Location: /webDevelopment/beat_it/dashboard.php');
+header('Location: ' . $BASE_URL . 'dashboard.php');
 exit();
 ?>
 

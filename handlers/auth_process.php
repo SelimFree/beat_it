@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION[FieldType::UserID] = $result[FieldType::UserID];
             $_SESSION[FieldType::UserAvatar] = $result[FieldType::UserAvatar];
             $_SESSION['errors'] = [];
-            header('Location: /webDevelopment/beat_it/');
+            header('Location: ' . $BASE_URL);
             exit();
         } else {
             $_SESSION['authorized'] = false;
@@ -136,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION[FieldType::Email] = $result[FieldType::Email];
             $_SESSION[FieldType::UserID] = $result[FieldType::UserID];
             $_SESSION['errors'] = [];
-            header('Location: /webDevelopment/beat_it/');
+            header('Location: ' . $BASE_URL);
             exit();
         } else {
             $_SESSION['authorized'] = false;
@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif ($action === 'logout') {
         session_unset();
         session_destroy();
-        header('Location: /webDevelopment/beat_it/');
+        header('Location: ' . $BASE_URL);
         exit();
     }
 }

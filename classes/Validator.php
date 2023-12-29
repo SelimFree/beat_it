@@ -41,7 +41,6 @@ class Validator
         $rules = $this->rules;
         foreach ($form as $key => $value) {
             $ruleset = $rules[$key];
-
             if (array_key_exists($key, $rules)) {
                 $this->messages[$key] = [];
                 $req = $ruleset['required'] === true;
@@ -55,25 +54,94 @@ class Validator
         }
     }
 
-    public function validateImage($files)
+    public function validateFile($files, $type)
     {
+        $targetDirectory = "";
         foreach ($files as $key => $value) {
-            if (!$this->messages[$key]) {
-                $this->messages[$key] = [];
-            }
-            if ($value["error"] > 0) {
-                array_push($this->messages[$key], "" . $key . "" . ' field error: ' . $value["error"]);
-            } else {
-                // Move the uploaded file to a desired directory
-                $targetDirectory = "assets/uploads/";
-                $targetFile = $targetDirectory . basename($value["name"]);
-                if (!move_uploaded_file($value["tmp_name"], $targetFile)) {
-                    array_push($this->messages[$key], "" . $key . "" . ' field error: ' . "Failed to uplaod the file");
+            $this->messages[$type] = [];
+            switch ($type) {
+                case "avatar":
+                    $targetDirectory = "assets/uploads/user/";
+                    break;
+                case "cover":
+                    $targetDirectory = "assets/uploads/post/img/";
+                    break;
+                case "audio":
+                    $targetDirectory = "assets/uploads/post/audio/";
+                    break;
+                default:
                     return;
-                }
-                return $targetFile;
             }
+            // Move the uploaded file to a desired directory
+            $targetFile = $targetDirectory . basename($value["name"]);
+
+            if (!move_uploaded_file($value["tmp_name"], $targetFile)) {
+                array_push($this->messages[$type], "" . $type . "" . ' field error: ' . "Failed to uplaod the file");
+                return;
+            }
+
+
+            if (!$this->isValidFile($targetFile, $type)) {
+                array_push($this->messages[$type], "" . $type . "" . ' field error: ' . "Invalid file uploaded");
+                return;
+            }
+
+            return $targetFile;
         }
+    }
+
+    private function isValidFile($filePath, $type)
+    {
+
+        switch ($type) {
+            case "avatar":
+            case "cover":
+                $allowedImageMagicNumbers = [
+                    'jpeg' => [0xFF, 0xD8],
+                    'jpg'  => [0xFF, 0xD8],
+                    'png'  => [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A],
+                ];
+
+                $file = fopen($filePath, 'rb');
+                if ($file === false) {
+                    return false; // Unable to open the file
+                }
+
+                $magicNumber = [];
+                for ($i = 0; $i < max(array_map('count', $allowedImageMagicNumbers)); $i++) {
+                    $byte = ord(fread($file, 1));
+                    if ($byte === false) {
+                        fclose($file);
+                        return false; // Unable to read the byte
+                    }
+                    $magicNumber[] = $byte;
+                    // Check against allowed magic numbers
+                    foreach ($allowedImageMagicNumbers as $extension => $magic) {
+                        if (count($magicNumber) >= count($magic) && array_slice($magicNumber, 0, count($magic)) === $magic) {
+                            fclose($file);
+                            return true; // Match found
+                        }
+                    }
+                }
+                break;
+            case "audio":
+                $allowedAudioExteniton = ["mp3"];
+
+                $fileExtension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+                if (in_array($fileExtension, $allowedAudioExteniton)) {
+                    return true;
+                }
+                break;
+            default:
+                return false;
+        }
+
+
+
+        fclose($file);
+        // No match found, delete the file
+        unlink($filePath);
+        return false;
     }
 
     /**

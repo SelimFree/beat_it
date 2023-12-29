@@ -11,7 +11,7 @@ include("./handlers/profile_process.php")
 ?>
 <?php
 if (!$_SESSION['authorized']) {
-    header('Location: /webDevelopment/beat_it/login.php');
+    header('Location: ' . $BASE_URL . 'login.php');
     exit();
 }
 ?>

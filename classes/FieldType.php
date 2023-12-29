@@ -6,5 +6,11 @@ class FieldType
     const PasswordRepeat = "password-repeat";
     const Email = "email";
     const UserID = "id";
+    //Profile
     const UserAvatar = "avatar_url";
+    //Post
+    const Title = "title";
+    const Description = "description";
+    const CoverImage = "cover_url";
+    const Audio = "audio_url";
 }

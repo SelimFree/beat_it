@@ -7,7 +7,7 @@
 }
 
 * {
-  font-size: 16px;
+  font-size: 14px;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -21,8 +21,23 @@
 
 @media (min-width: 1200px) {
   * {
-    font-size: 12px;
+    font-size: 10px;
   }
+}
+
+/* Hide the scrollbar in WebKit browsers */
+*::-webkit-scrollbar {
+  width: 0.5rem; /* Set a small width to create a "thin" scrollbar */
+}
+
+*::-webkit-scrollbar-thumb {
+  width: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-3); /* Hide the thumb */
+}
+
+*::-webkit-scrollbar-track {
+  background-color: transparent; /* Hide the track */
 }
 
 body {
@@ -85,6 +100,7 @@ label {
 }
 
 input {
+  font-family: "Poppins", sans-serif;
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
@@ -94,7 +110,24 @@ input {
   font-size: 1.5rem;
 }
 
-input:invalid {
+input[type="file"]::file-selector-button {
+  max-width: 15rem;
+  font-size: 1.1rem;
+  background-color: var(--color-3);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: background-color 100ms ease-out;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: var(--color-4);
+}
+
+input:invalid, textarea:invalid {
   border-color: var(--color-error);
 }
 
@@ -389,7 +422,7 @@ a:hover {
   align-self: center;
   max-width: 15rem;
   font-size: 1.1rem;
-  background-color: #a6b1e1;
+  background-color: var(--color-3);
   color: #ffffff;
   font-weight: 600;
   padding: 1rem 1.5rem;
@@ -427,3 +460,49 @@ a:hover {
   background-color: var(--color-4);
 }
 /* Profile */
+
+/* Creare post*/
+
+.CreatePost .container {
+  width: 50rem;
+}
+
+.CreatePost textarea {
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid var(--color-3);
+  border-radius: 0.625rem;
+  font-weight: 500;
+  font-size: 1.5rem;
+  resize: none;
+  overflow-y: scroll;
+}
+
+.CreatePost .media {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.CreatePost button {
+  align-self: center;
+  max-width: 15rem;
+  font-size: 1.1rem;
+  background-color: var(--color-3);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: background-color 100ms ease-out;
+}
+
+.CreatePost button:hover {
+  background-color: var(--color-4);
+}
+
+/* Creare post*/

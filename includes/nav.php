@@ -17,6 +17,7 @@
                     <form action="#" method="post">
                         <ul>
                             <li><a href="profile.php">Profile</a></li>
+                            <li><a href="create_post.php">Create post</a></li>
                             <li>
                                 <button class="logout" type="submit">
                                     Logout
