@@ -56,6 +56,9 @@ if (!$_SESSION['authorized']) {
     <?php
     include("./scripts/script.php")
     ?>
+    <?php
+    include("./scripts/profile_script.php")
+    ?>
 </body>
 
 </html>

@@ -5,19 +5,21 @@ include("./includes/init.php");
 include("./classes/FieldType.php");
 ?>
 
-<?php 
-function formatNumber($num) {
+<?php
+function formatNumber($num)
+{
     return number_format($num, 0, '.', ' ');
 }
 
-function fetchData($conn, $offset, $limit) {
+function fetchData($conn, $offset, $limit)
+{
     $query = $conn->prepare(' SELECT posts.*, users.email, users.avatar_url
                                     FROM posts
                                     JOIN users ON posts.user_id = users.id
-                                    WHERE posts.user_id IS NOT NULL
+                                    WHERE posts.user_id = ?
                                     ORDER BY posts.created_at DESC
                                     LIMIT ' . $limit . ' OFFSET ' . $offset * $limit);
-    $query->execute();
+    $query->execute([$_SESSION[FieldType::UserID]]);
     return $query->fetchAll();
 }
 ?>

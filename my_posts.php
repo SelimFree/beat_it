@@ -7,14 +7,19 @@ include("./includes/init.php");
 include("./includes/head.php")
 ?>
 <?php
-include("./handlers/dashboard_process.php")
+include("./handlers/my_posts_process.php")
 ?>
-
+<?php
+if (!$_SESSION['authorized']) {
+    header('Location: ' . $BASE_URL . 'login.php');
+    exit();
+}
+?>
 <body>
     <?php
     include("./includes/nav.php")
     ?>
-    <div class="Dashboard">
+    <div class="MyPosts">
         <?php
         include("./includes/post_list.php")
         ?>

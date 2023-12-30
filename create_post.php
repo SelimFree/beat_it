@@ -26,11 +26,11 @@ if (!$_SESSION['authorized']) {
                 <h2>Share your creativity</h2>
                 <div class="input-group">
                     <label for="title">Title:</label>
-                    <input type="text" id="title" name="title" placeholder="Title..." required>
+                    <input type="text" id="title" name="title" placeholder="Title..." maxlength="256" required>
                 </div>
                 <div class="input-group">
                     <label for="description">Description:</label>
-                    <textarea name="description" id="description" rows="3" placeholder="Description..." required></textarea>
+                    <textarea name="description" id="description" rows="3" placeholder="Description..." maxlength="1024" required></textarea>
                 </div>
                 <div class="media">
                     <div class="input-group">
