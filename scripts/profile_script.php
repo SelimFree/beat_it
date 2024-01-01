@@ -37,8 +37,7 @@
         const file = fileInput.files[0];
 
         const formData = new FormData();
-        const uniqueFileName = 'user_avatar_' + Date.now() + '_' + file.name;
-        formData.append('avatar_url', file, uniqueFileName);
+        formData.append('avatar_url', file);
 
         fetch('profile.php', {
                 method: 'POST',
@@ -54,7 +53,6 @@
             })
             .then(data => {
                 // Handle the data from the response
-                console.log(data);
                 location.reload();
             })
             .catch(error => {

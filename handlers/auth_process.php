@@ -37,11 +37,17 @@ function login($connection)
         }
     }
 
-    $query = $connection->prepare('SELECT * FROM users WHERE email = ?');
-    $query->execute([$_POST[FieldType::Email]]);
-    $user = $query->fetch();
-    if (!$user) {
-        $errors["general"] = "Invalid email or password";
+    try {
+        $query = $connection->prepare('SELECT * FROM users WHERE email = ?');
+        $query->execute([$_POST[FieldType::Email]]);
+        $user = $query->fetch();
+        if (!$user) {
+            $errors["general"] = "Invalid email or password";
+            $result["errors"] = $errors;
+            return $result;
+        }
+    } catch (Exception $e) {
+        $errors["general"] = "Try again later";
         $result["errors"] = $errors;
         return $result;
     }

@@ -497,11 +497,11 @@ a:hover {
 
 /* Creare post*/
 
-.CreatePost .container {
+.CreatePost .container, .EditPost .container  {
   width: 50rem;
 }
 
-.CreatePost textarea {
+.CreatePost textarea, .EditPost textarea {
   font-family: "Poppins", sans-serif;
   width: 100%;
   padding: 8px;
@@ -514,14 +514,14 @@ a:hover {
   overflow-y: scroll;
 }
 
-.CreatePost .media {
+.CreatePost .media, .EditPost .media {
   display: flex;
   align-items: flex-start;
   gap: 2rem;
   margin-bottom: 1rem;
 }
 
-.CreatePost button {
+.CreatePost button, .EditPost button {
   align-self: center;
   max-width: 15rem;
   font-size: 1.1rem;
@@ -535,9 +535,21 @@ a:hover {
   transition: background-color 100ms ease-out;
 }
 
-.CreatePost button:hover {
+.CreatePost button:hover, .EditPost button:hover {
   background-color: var(--color-4);
 }
+
+.edit-buttons {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.edit-buttons button {
+  width: 8rem;
+} 
+
+
 
 /* Creare post*/
 
@@ -628,6 +640,7 @@ a:hover {
 .modify button:hover {
   background-color: var(--color-4);
 }
+
 
 .modify .delete {
   background-color:#ed6859;

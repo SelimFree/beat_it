@@ -28,11 +28,14 @@ function avatar($connection)
         }
     }
 
-    $query = $connection->prepare('UPDATE users SET avatar_url = ? WHERE id = ?');
     try {
+        $oldAvatar = $_SESSION[FieldType::UserAvatar];
+        $query = $connection->prepare('UPDATE users SET avatar_url = ? WHERE id = ?');
         //Changing avatar
-        $query->execute([$avatarImagePath, $_SESSION[FieldType::UserID]]);
-
+        $res = $query->execute([$avatarImagePath, $_SESSION[FieldType::UserID]]);
+        if ($res && $oldAvatar) {
+            unlink($oldAvatar);
+        }
         //Getting new avatar
         $query = $connection->prepare('SELECT * FROM users WHERE id = ?');
         $query->execute([$_SESSION[FieldType::UserID]]);

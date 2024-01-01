@@ -14,8 +14,8 @@
                 if ($_SESSION["id"] == $post["user_id"]) {
                 ?>
                     <div class="modify">
-                        <button class="edit">Edit</button>
-                        <button class="delete">Delete</button>
+                        <button class="edit" onclick="editPost(event)" data-post="<?php echo $post["id"] ?>">Edit</button>
+                        <button class="delete" onclick="deletePost(event)" data-post="<?php echo $post["id"] ?>">Delete</button>
                     </div>
                 <?php
                 }

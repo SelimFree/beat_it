@@ -15,4 +15,10 @@
     }
   };
   //navigation
+
+  //general
+  function cancel() {
+    window.history.go(-1);
+  }
+  //general
 </script>

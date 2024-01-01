@@ -41,8 +41,8 @@ function create($connection)
         }
     }
 
-    $query = $connection->prepare('INSERT INTO posts(user_id, title, description, cover_url, audio_url) VALUES(?, ?, ?, ?, ?)');
     try {
+        $query = $connection->prepare('INSERT INTO posts(user_id, title, description, cover_url, audio_url) VALUES(?, ?, ?, ?, ?)');
         $newPost = $query->execute([$_SESSION[FieldType::UserID], $_POST[FieldType::Title], $_POST[FieldType::Description], $coverImagePath, $audioPath]);
         if ($newPost) {
             $result["post_created"] = true;

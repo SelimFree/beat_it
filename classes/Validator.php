@@ -73,7 +73,9 @@ class Validator
                     return;
             }
             // Move the uploaded file to a desired directory
-            $targetFile = $targetDirectory . basename($value["name"]);
+            $prefix = 'file_';
+            $uniqueFileName = $prefix . uniqid() . '_' . time();
+            $targetFile = $targetDirectory . $uniqueFileName . "." . array_pop(explode(".", $value["name"]));
 
             if (!move_uploaded_file($value["tmp_name"], $targetFile)) {
                 array_push($this->messages[$type], "" . $type . "" . ' field error: ' . "Failed to uplaod the file");

@@ -30,6 +30,69 @@
       });
   }
 
+  function deletePost(event) {
+    const deleteButton = event.target;
+    const postId = deleteButton.dataset.post;
+    switch (deleteButton.innerText) {
+      case "Confirm":
+        deletePostHandler(postId);
+        break;
+      default:
+        deleteButton.innerText = "Confirm";
+        deleteButton.style.background = "#c72716";
+        setTimeout(() => {
+          deleteButton.innerText = "Delete";
+          deleteButton.style.background = "#ed6859";
+        }, 5000)
+        break;
+    }
+  }
+
+  function deletePostHandler(id) {
+    const formData = new FormData();
+    formData.append("id", id);
+    formData.append("action", "delete_post");
+
+    fetch("dashboard.php", {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => {
+        // Check if the request was successful (status code 200)
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        // Parse the response as JSON or text, depending on the content type
+        return response.text(); // or response.text() if it's not JSON
+      })
+      .then(data => {
+        // Handle the data from the response
+        location.reload();
+      })
+      .catch(error => {
+        // Handle errors during the fetch operation
+        console.error('Fetch error:', error);
+      });
+  }
+
+  function editPost(event) {
+    const deleteButton = event.target;
+    const postId = deleteButton.dataset.post;
+    switch (deleteButton.innerText) {
+      case "Confirm":
+        window.location.href = `edit_post.php?id=${postId}`;
+        break;
+      default:
+        deleteButton.innerText = "Confirm";
+        deleteButton.style.background = "var(--color-4)";
+        setTimeout(() => {
+          deleteButton.innerText = "Edit";
+          deleteButton.style.background = "var(--color-3)";
+        }, 5000)
+        break;
+    }
+  }
+
 
   function showMore(event) {
     event.target.classList.toggle('show-more');
