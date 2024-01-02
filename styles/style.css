@@ -25,26 +25,24 @@
   }
 }
 
-/* Hide the scrollbar in WebKit browsers */
 *::-webkit-scrollbar {
-  width: 0.5rem; /* Set a small width to create a "thin" scrollbar */
+  width: 0.5rem;
 }
 
 *::-webkit-scrollbar-thumb {
   width: 0.5rem;
   border-radius: 0.5rem;
-  background-color: var(--color-3); /* Hide the thumb */
+  background-color: var(--color-3);
 }
 
 *::-webkit-scrollbar-track {
-  background-color: transparent; /* Hide the track */
+  background-color: transparent;
 }
 
 input[type="range"]:focus {
   outline: none;
 }
 
-/* Remove default appearance for WebKit browsers (Chrome, Safari) */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -54,22 +52,20 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: 50%;
 }
 
-/* Remove default appearance for Firefox */
 input[type="range"]::-moz-range-thumb {
   -moz-appearance: none;
   appearance: none;
-  border: none; /* Example border */
+  border: none;
   background: transparent;
   border-radius: 50%;
 }
 
-/* Remove default appearance for IE/Edge */
 input[type="range"]::-ms-thumb {
   appearance: none;
   height: 1.5rem;
   width: 1.5rem;
   border: none;
-  background: transparent; /* Example background color */
+  background: transparent;
   border-radius: 50%;
 }
 
@@ -497,11 +493,13 @@ a:hover {
 
 /* Creare post*/
 
-.CreatePost .container, .EditPost .container  {
+.CreatePost .container,
+.EditPost .container {
   width: 50rem;
 }
 
-.CreatePost textarea, .EditPost textarea {
+.CreatePost textarea,
+.EditPost textarea {
   font-family: "Poppins", sans-serif;
   width: 100%;
   padding: 8px;
@@ -514,14 +512,16 @@ a:hover {
   overflow-y: scroll;
 }
 
-.CreatePost .media, .EditPost .media {
+.CreatePost .media,
+.EditPost .media {
   display: flex;
   align-items: flex-start;
   gap: 2rem;
   margin-bottom: 1rem;
 }
 
-.CreatePost button, .EditPost button {
+.CreatePost button,
+.EditPost button {
   align-self: center;
   max-width: 15rem;
   font-size: 1.1rem;
@@ -535,7 +535,8 @@ a:hover {
   transition: background-color 100ms ease-out;
 }
 
-.CreatePost button:hover, .EditPost button:hover {
+.CreatePost button:hover,
+.EditPost button:hover {
   background-color: var(--color-4);
 }
 
@@ -547,9 +548,7 @@ a:hover {
 
 .edit-buttons button {
   width: 8rem;
-} 
-
-
+}
 
 /* Creare post*/
 
@@ -641,9 +640,8 @@ a:hover {
   background-color: var(--color-4);
 }
 
-
 .modify .delete {
-  background-color:#ed6859;
+  background-color: #ed6859;
 }
 
 .modify .delete:hover {
@@ -721,6 +719,7 @@ a:hover {
 }
 
 .action-bar img {
+  cursor: pointer;
   width: 2rem;
   height: 2rem;
   object-fit: cover;
@@ -729,6 +728,25 @@ a:hover {
 .action-bar span {
   font-size: 1.1rem;
   font-weight: 500;
+}
+
+.unlike {
+}
+
+.like {
+  animation: like 300ms linear;
+}
+
+@keyframes like {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .description {

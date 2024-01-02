@@ -8,7 +8,7 @@
                 <img src="<?php echo $post["avatar_url"] ?  $post["avatar_url"] : './assets/avatar.png' ?>" alt="Profile image">
                 <div class="header-info">
                     <h4><?php echo $post["email"] ?></h4>
-                    <span><?php echo $post["created_at"] ?></span>
+                    <span><?php echo formatDate($post["created_at"]) ?></span>
                 </div>
                 <?php
                 if ($_SESSION["id"] == $post["user_id"]) {
@@ -28,8 +28,8 @@
                 <div class="action-bar">
                     <span><?php echo formatNumber(43243) ?></span>
                     <img src="./assets/comment.png" alt="Comment">
-                    <span><?php echo formatNumber(1231) ?></span>
-                    <img src="./assets/like.png" alt="Comment">
+                    <span><?php echo formatNumber($post["totalLikes"]) ?></span>
+                    <img src="<?php echo $post["liked"] ? "./assets/like_red.png" : "./assets/like.png" ?>" class="<?php echo $post["liked"] ? "like" : "unlike" ?>" data-post="<?php echo $post["id"] ?>" onclick="likePost(event)" alt="Like">
                 </div>
                 <div class="description" onclick="showMore(event)">
                     <?php echo $post["description"] ?>

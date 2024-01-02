@@ -39,10 +39,8 @@
         break;
       default:
         deleteButton.innerText = "Confirm";
-        deleteButton.style.background = "#c72716";
         setTimeout(() => {
           deleteButton.innerText = "Delete";
-          deleteButton.style.background = "#ed6859";
         }, 5000)
         break;
     }
@@ -84,13 +82,57 @@
         break;
       default:
         deleteButton.innerText = "Confirm";
-        deleteButton.style.background = "var(--color-4)";
         setTimeout(() => {
           deleteButton.innerText = "Edit";
-          deleteButton.style.background = "var(--color-3)";
         }, 5000)
         break;
     }
+  }
+
+  function likePost(event) {
+    const likeButton = event.target;
+    
+    const postId = likeButton.dataset.post;
+    let mode = "unlike";
+    if (likeButton.classList.contains("unlike")) {
+      mode = "like";
+      likeButton.classList.remove("unlike")
+      likeButton.classList.add("like")
+      likeButton.src = "./assets/like_red.png"
+    } else if (likeButton.classList.contains("like")) {
+      likeButton.classList.remove("like")
+      likeButton.classList.add("unlike")
+      likeButton.src = "./assets/like.png"
+    }
+    likePostHandler(postId, mode);
+  }
+
+  function likePostHandler(id, mode) {
+    const formData = new FormData();
+    formData.append("id", id);
+    formData.append("action", mode == "like" ? "like_post" : "unlike_post");
+
+    fetch("dashboard.php", {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => {
+        // Check if the request was successful (status code 200)
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        // Parse the response as JSON or text, depending on the content type
+        return response.text(); // or response.text() if it's not JSON
+      })
+      .then(data => {
+        // Handle the data from the response
+        //location.reload();
+        console.log(data);
+      })
+      .catch(error => {
+        // Handle errors during the fetch operation
+        console.error('Fetch error:', error);
+      });
   }
 
 
