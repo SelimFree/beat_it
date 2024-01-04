@@ -5,6 +5,7 @@ if (!isset($_SESSION['authorized'])) {
 }
 $BASE_URL = "/webDevelopment/beat_it/";
 $postPerPage = 4;
+$commentPerPage = 6;
 try {
   error_reporting(E_ERROR | E_PARSE);
   $connection = new PDO('mysql:host=localhost;dbname=beat_it', "root", "");

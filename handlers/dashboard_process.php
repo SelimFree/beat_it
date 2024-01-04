@@ -23,7 +23,8 @@ function fetchData($conn, $offset, $limit)
     try {
 
         $query = $conn->prepare(' SELECT posts.*, users.email, users.avatar_url, likes.user_id AS liked,
-                                    (SELECT count(*) FROM likes WHERE likes.post_id = posts.id) as totalLikes
+                                    (SELECT count(*) FROM likes WHERE likes.post_id = posts.id) as totalLikes,
+                                    (SELECT count(*) FROM comments WHERE comments.post_id = posts.id) as totalComments
                                     FROM posts
                                     JOIN users ON posts.user_id = users.id
                                     LEFT JOIN likes ON posts.id = likes.post_id AND likes.user_id = ?
@@ -53,7 +54,31 @@ function deletePost($conn, $id)
         if ($res) {
             unlink($delPost[FieldType::CoverImage]);
             unlink($delPost[FieldType::Audio]);
+            deleteLikes($conn, $id);
+            deleteComments($conn, $id);
         }
+    } catch (Exception $e) {
+        // pass
+    }
+}
+
+function deleteLikes($conn, $id)
+{
+    try {
+        //trying to delete
+        $query = $conn->prepare(' DELETE FROM likes WHERE post_id = ?');
+        $res = $query->execute([$id]);
+    } catch (Exception $e) {
+        // pass
+    }
+}
+
+function deleteComments($conn, $id)
+{
+    try {
+        //trying to delete
+        $query = $conn->prepare(' DELETE FROM comments WHERE post_id = ?');
+        $res = $query->execute([$id]);
     } catch (Exception $e) {
         // pass
     }

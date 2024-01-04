@@ -22,14 +22,14 @@
                 ?>
             </div>
             <div class="container-body">
-                <div class="cover">
+                <div class="cover" onclick="<?php echo  "window.location.href = 'single_post.php?id=" . $post["id"] . "'"?>">
                     <img src="<?php echo $post["cover_url"] ?>" alt="">
                 </div>
                 <div class="action-bar">
-                    <span><?php echo formatNumber(43243) ?></span>
-                    <img src="./assets/comment.png" alt="Comment">
+                    <span><?php echo formatNumber($post["totalComments"]) ?></span>
+                    <img src="./assets/comment.png" onclick="<?php echo  "window.location.href = 'single_post.php?id=" . $post["id"] . "'"?>" alt="Comment">
                     <span><?php echo formatNumber($post["totalLikes"]) ?></span>
-                    <img src="<?php echo $post["liked"] ? "./assets/like_red.png" : "./assets/like.png" ?>" class="<?php echo $post["liked"] ? "like" : "unlike" ?>" data-post="<?php echo $post["id"] ?>" onclick="likePost(event)" alt="Like">
+                    <img src="<?php echo $post["liked"] ? "./assets/like_red.png" : "./assets/like.png" ?>" class="<?php echo $post["liked"] ? "like" : "unlike" ?>" data-post="<?php echo $post["id"] ?>" onclick="<?php echo $_SESSION["authorized"] ? "likePost(event)" : "window.location.href = 'login.php'"?>" alt="Like">
                 </div>
                 <div class="description" onclick="showMore(event)">
                     <?php echo $post["description"] ?>

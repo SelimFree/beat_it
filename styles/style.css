@@ -555,7 +555,8 @@ a:hover {
 /* Dashboard*/
 
 .Dashboard,
-.MyPosts {
+.MyPosts,
+.Post {
   width: 50%;
   padding: 10rem 0;
   height: 100vh;
@@ -567,7 +568,8 @@ a:hover {
 }
 
 .Dashboard::-webkit-scrollbar-thumb,
-.MyPosts::-webkit-scrollbar-thumb {
+.MyPosts::-webkit-scrollbar-thumb,
+.Post::-webkit-scrollbar-thumb {
   background-color: transparent; /* Hide the thumb */
 }
 
@@ -579,7 +581,8 @@ a:hover {
 }
 
 .Dashboard .container,
-.MyPosts .container {
+.MyPosts .container,
+.Post .container {
   width: 75rem;
   /* height: 70rem; */
 }
@@ -654,6 +657,7 @@ a:hover {
 }
 
 .cover {
+  cursor: pointer;
   height: 50rem;
   border-radius: 0.4rem;
   overflow: hidden;
@@ -931,3 +935,92 @@ a:hover {
 }
 
 /* Dashboard*/
+
+/* Single Post*/
+
+.comments {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.comment-input {
+  display: flex;
+  width: 100%;
+}
+
+.comment-input button {
+  align-self: center;
+  max-width: 15rem;
+  font-size: 1.5rem;
+  background-color: var(--color-3);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 1.2rem 1.5rem;
+  border: none;
+  border-radius: 0 0.625rem 0.625rem 0;
+  cursor: pointer;
+  transition: background-color 100ms ease-out;
+}
+
+.comment-input input {
+  border-radius: 0.625rem 0 0 0.625rem;
+}
+
+.comments-content {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.comments-content .comment {
+  display: flex;
+  padding: 2rem;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--color-3);
+}
+
+.user-img {
+  margin-right: 1rem;
+}
+
+.comment .user-img img {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment .comment-body {
+  display: flex;
+  flex-direction: column;
+  align-items: self-start;
+}
+
+.comment .author {
+  display: flex;
+  gap: 1rem;
+}
+
+.comment .author-email {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-4);
+}
+
+.comment .created-at {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-3);
+}
+
+.comment .content {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--color-4);
+  text-align: justify;
+}
+
+/* Single Post*/

@@ -107,10 +107,15 @@ function register($connection)
 
     $query = $connection->prepare('INSERT INTO users(email, password) VALUES(?, ?)');
     try {
-        $newUser = $query->execute([$_POST[FieldType::Email], password_hash($_POST[FieldType::Password], PASSWORD_DEFAULT)]);
-        if ($newUser) {
-            $result[FieldType::Email] = $_POST[FieldType::Email];
-            $result[FieldType::UserID] = $newUser[FieldType::UserID];
+        $res = $query->execute([$_POST[FieldType::Email], password_hash($_POST[FieldType::Password], PASSWORD_DEFAULT)]);
+        if ($res) {
+
+            $query = $connection->prepare('SELECT * FROM users WHERE email = ?');
+            $query->execute([$_POST[FieldType::Email]]);
+            $user = $query->fetch();
+
+            $result[FieldType::Email] = $user[FieldType::Email];
+            $result[FieldType::UserID] = $user[FieldType::UserID];
         }
     } catch (Exception $e) {
         $errors["general"] = "Try again later";

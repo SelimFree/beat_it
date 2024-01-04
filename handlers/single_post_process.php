@@ -18,7 +18,24 @@ function formatDate($date)
     return $formattedDate;
 }
 
-function fetchData($conn, $offset, $limit)
+function fetchComments($conn, $id, $offset, $limit)
+{
+    try {
+
+        $query = $conn->prepare(' SELECT comments.*, users.email, users.avatar_url
+                                    FROM comments
+                                    JOIN users ON comments.user_id = users.id
+                                    WHERE comments.post_id = ?
+                                    ORDER BY comments.created_at DESC
+                                    LIMIT ' . $limit . ' OFFSET ' . $offset * $limit);
+        $query->execute([$id]);
+        return $query->fetchAll();
+    } catch (Exception $e) {
+        return [];
+    }
+}
+
+function fetchData($conn, $id)
 {
     try {
 
@@ -28,13 +45,11 @@ function fetchData($conn, $offset, $limit)
                                     FROM posts
                                     JOIN users ON posts.user_id = users.id
                                     LEFT JOIN likes ON posts.id = likes.post_id AND likes.user_id = ?
-                                    WHERE posts.user_id = ?
-                                    ORDER BY posts.created_at DESC
-                                    LIMIT ' . $limit . ' OFFSET ' . $offset * $limit);
-        $query->execute([$_SESSION[FieldType::UserID], $_SESSION[FieldType::UserID]]);
-        return $query->fetchAll();
+                                    WHERE posts.id = ?
+                                    ORDER BY posts.created_at DESC');
+        $query->execute([$_SESSION[FieldType::UserID], $id]);
+        return $query->fetch();
     } catch (Exception $e) {
-        return [];
     }
 }
 
@@ -103,10 +118,24 @@ function unlikePost($conn, $id)
         // pass
     }
 }
+
+function postComment($conn, $id, $comment)
+{
+    try {
+        $query = $conn->prepare('INSERT INTO comments(post_id, user_id, comment) VALUES(?, ?, ?)');
+        $query->execute([$id, $_SESSION[FieldType::UserID], $comment]);
+    } catch (Exception $e) {
+        // pass
+    }
+}
+
 ?>
 
+
+
 <?php
-$posts = [];
+$currentPost;
+$comments = [];
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $action = $_POST['action'];
     if ($action === 'logout') {
@@ -120,7 +149,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         likePost($connection, $_POST["id"]);
     } else if ($action === "unlike_post") {
         unlikePost($connection, $_POST["id"]);
+    } else if ($action === "post_comment") {
+        postComment($connection, $_POST["id"], $_POST["comment"]);
     }
 } else if ($_SERVER["REQUEST_METHOD"] === "GET") {
-    $posts = fetchData($connection, (int)$_GET["page"], $postPerPage);
+    $currentPost = fetchData($connection, $_GET["id"]);
+    $comments = fetchComments($connection, $_GET["id"], (int)$_GET["page"], $commentPerPage);
 }

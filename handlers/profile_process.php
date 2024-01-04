@@ -11,6 +11,11 @@ include("./classes/ValidationRule.php");
 include("./classes/FieldType.php");
 ?>
 <?php
+function formatNumber($num)
+{
+    return number_format($num, 0, '.', ' ');
+}
+
 function avatar($connection)
 {
     $result = [];
@@ -49,9 +54,25 @@ function avatar($connection)
     }
     return $result;
 }
+
+function fetchProfileData($connection)
+{
+    $query = $connection->prepare(' SELECT
+                                        COUNT(DISTINCT posts.id) as userPosts,
+                                        COUNT(DISTINCT likes.id) as userLikes,
+                                        COUNT(DISTINCT comments.id) as userComments
+                                    FROM users
+                                    LEFT JOIN posts ON users.id = posts.user_id
+                                    LEFT JOIN likes ON users.id = likes.user_id
+                                    LEFT JOIN comments ON users.id = comments.user_id
+                                    WHERE users.id = ?;');
+    $query->execute([$_SESSION[FieldType::UserID]]);
+    return $query->fetch();
+}
 ?>
 
 <?php
+$profileData;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $action = $_POST['action'];
     if ($action === 'logout') {
@@ -68,4 +89,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['errors'] = $result["errors"];
         }
     }
+} else if ($_SERVER["REQUEST_METHOD"] === "GET") {
+    $profileData = fetchProfileData($connection);
 }

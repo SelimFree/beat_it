@@ -27,15 +27,15 @@ if (!$_SESSION['authorized']) {
             <div class="cards">
                 <div class="card-item">
                     <img src="./assets/post.png" alt="Posts">
-                    <span>123 Posts</span>
+                    <span><?php echo formatNumber($profileData["userPosts"]) ?> Posts</span>
                 </div>
                 <div class="card-item">
                     <img src="./assets/comment.png" alt="Comment">
-                    <span>123 Comments</span>
+                    <span><?php echo formatNumber($profileData["userComments"]) ?> Comments</span>
                 </div>
                 <div class="card-item">
                     <img src="./assets/like.png" alt="Like">
-                    <span>123 Likes</span>
+                    <span><?php echo formatNumber($profileData["userLikes"]) ?> Likes</span>
                 </div>
             </div>
 
