@@ -5,7 +5,7 @@
     ?>
         <div class="container">
             <div class="container-header">
-                <img src="<?php echo $post["avatar_url"] ?  $post["avatar_url"] : './assets/avatar.png' ?>" alt="Profile image">
+                <img src="<?php echo $post["avatar_url"] ?  $post["avatar_url"] : './assets/avatar.png' ?>" alt="Profile image" loading="lazy">
                 <div class="header-info">
                     <h4><?php echo $post["email"] ?></h4>
                     <span><?php echo formatDate($post["created_at"]) ?></span>
@@ -22,14 +22,14 @@
                 ?>
             </div>
             <div class="container-body">
-                <div class="cover" onclick="<?php echo  "window.location.href = 'single_post.php?id=" . $post["id"] . "'"?>">
-                    <img src="<?php echo $post["cover_url"] ?>" alt="">
+                <div class="cover" onclick="<?php echo  "window.location.href = 'single_post.php?id=" . $post["id"] . "'" ?>">
+                    <img src="<?php echo $post["cover_url"] ?>" alt="" loading="lazy">
                 </div>
                 <div class="action-bar">
                     <span><?php echo formatNumber($post["totalComments"]) ?></span>
-                    <img src="./assets/comment.png" onclick="<?php echo  "window.location.href = 'single_post.php?id=" . $post["id"] . "'"?>" alt="Comment">
+                    <img src="./assets/comment.png" onclick="<?php echo  "window.location.href = 'single_post.php?id=" . $post["id"] . "'" ?>" alt="Comment">
                     <span><?php echo formatNumber($post["totalLikes"]) ?></span>
-                    <img src="<?php echo $post["liked"] ? "./assets/like_red.png" : "./assets/like.png" ?>" class="<?php echo $post["liked"] ? "like" : "unlike" ?>" data-post="<?php echo $post["id"] ?>" onclick="<?php echo $_SESSION["authorized"] ? "likePost(event)" : "window.location.href = 'login.php'"?>" alt="Like">
+                    <img src="<?php echo $post["liked"] ? "./assets/like_red.png" : "./assets/like.png" ?>" class="<?php echo $post["liked"] ? "like" : "unlike" ?>" data-post="<?php echo $post["id"] ?>" onclick="<?php echo $_SESSION["authorized"] ? "likePost(event)" : "window.location.href = 'login.php'" ?>" alt="Like">
                 </div>
                 <div class="description" onclick="showMore(event)">
                     <?php echo $post["description"] ?>
@@ -48,15 +48,16 @@
     }
     ?>
 </div>
-<button class="load-more" onclick="loadMore(event)" data-page="0">
+<button class="<?php echo count($posts) == 0 ? "hide" : "load-more" ?>" onclick="loadMore(event)" data-page="0">
     More
 </button>
+<h1 class="<?php echo count($posts) == 0 ? "empty" : "hide" ?>">Nothing to show =(</h1>
 <div class="player hidden" id="player">
     <button class="close-player" onclick="closePlayer()">
         <img src="./assets/close.png">
     </button>
     <div class="track-cover">
-        <img>
+        <img loading="lazy">
     </div>
     <div class="track-info">
         <div class="track-name"></div>

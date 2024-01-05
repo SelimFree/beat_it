@@ -5,7 +5,7 @@
     </a>
     <div class="actions">
         <div class="user-profile">
-            <img src="<?php echo $_SESSION["avatar_url"] ? $_SESSION["avatar_url"] : './assets/avatar.png' ?>" alt="Profile Image">
+            <img src="<?php echo $_SESSION["avatar_url"] ? $_SESSION["avatar_url"] : './assets/avatar.png' ?>" alt="Profile Image" loading="lazy">
             <span class="username"><?php echo $_SESSION["email"] ? $_SESSION["email"] : "Guest" ?></span>
         </div>
         <?php

@@ -17,7 +17,7 @@ include("./handlers/single_post_process.php")
     <div class="Post">
         <div class="container">
             <div class="container-header">
-                <img src="<?php echo $currentPost["avatar_url"] ?  $currentPost["avatar_url"] : './assets/avatar.png' ?>" alt="Profile image">
+                <img src="<?php echo $currentPost["avatar_url"] ?  $currentPost["avatar_url"] : './assets/avatar.png' ?>" alt="Profile image" loading="lazy">
                 <div class="header-info">
                     <h4><?php echo $currentPost["email"] ?></h4>
                     <span><?php echo formatDate($currentPost["created_at"]) ?></span>
@@ -35,7 +35,7 @@ include("./handlers/single_post_process.php")
             </div>
             <div class="container-body">
                 <div class="cover">
-                    <img src="<?php echo $currentPost["cover_url"] ?>" alt="">
+                    <img src="<?php echo $currentPost["cover_url"] ?>" alt="" loading="lazy">
                 </div>
                 <div class="action-bar">
                     <span><?php echo formatNumber($currentPost["totalComments"]) ?></span>
@@ -78,7 +78,7 @@ include("./handlers/single_post_process.php")
                     ?>
                         <div class="comment">
                             <div class="user-img">
-                                <img src="<?php echo $comment["avatar_url"] ?  $comment["avatar_url"] : './assets/avatar.png' ?>" alt="Profile image">
+                                <img src="<?php echo $comment["avatar_url"] ?  $comment["avatar_url"] : './assets/avatar.png' ?>" alt="Profile image" loading="lazy">
                             </div>
                             <div class="comment-body">
                                 <div class="author">
@@ -95,7 +95,7 @@ include("./handlers/single_post_process.php")
                     }
                     ?>
                 </div>
-                <button class="load-more" onclick="loadMoreComments(event)" data-page="0" data-id="<?php echo $currentPost["id"] ?>">
+                <button class="<?php echo count($comments) == 0 ? "hide" : "load-more" ?>" onclick="loadMoreComments(event)" data-page="0" data-id="<?php echo $currentPost["id"] ?>">
                     More
                 </button>
             </div>
@@ -105,7 +105,7 @@ include("./handlers/single_post_process.php")
                 <img src="./assets/close.png">
             </button>
             <div class="track-cover">
-                <img>
+                <img loading="lazy">
             </div>
             <div class="track-info">
                 <div class="track-name"></div>
