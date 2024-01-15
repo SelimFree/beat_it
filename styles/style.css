@@ -798,15 +798,40 @@ a:hover {
 .track-cover {
   width: 20rem;
   height: 20rem;
-  border-radius: 50%;
-  overflow: hidden;
   margin-bottom: 3rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .track-cover img {
+  width: 20rem;
+  height: 20rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.visualizer {
+  position: absolute;
+  border-radius: 50%;
+  top: 0;
+  right: 0;
+  z-index: -1;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  background: radial-gradient(
+    circle,
+    var(--color-3) 0%,
+    var(--color-3) 55%,
+    var(--color-3) 60%,
+    var(--color-2) 65%,
+    var(--color-2) 70%,
+    var(--color-2) 75%,
+    var(--color-1) 80%,
+    var(--color-1) 90%,
+    var(--color-1) 100%
+  );
 }
 
 .spin {

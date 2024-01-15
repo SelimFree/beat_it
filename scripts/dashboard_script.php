@@ -1,5 +1,10 @@
 <script>
   //dashboard
+  let audioContext, analyser, dataArray, source, duration, animationFrameId, current, currentId;
+  const player = document.getElementById('player');
+  const visualizer = player.querySelector('.visualizer');
+  const currentTime = player.querySelector("#current-time");
+  const trackSlider = player.querySelector(".animate-track");
 
   function loadMore(event) {
     let page = parseInt(event.target.dataset.page) + 1;
@@ -91,7 +96,7 @@
 
   function likePost(event) {
     const likeButton = event.target;
-    
+
     const postId = likeButton.dataset.post;
     let mode = "unlike";
     if (likeButton.classList.contains("unlike")) {
@@ -148,6 +153,7 @@
 
     if (!current) {
       initSong(parent);
+      return
     }
 
     if (parent === current) {
@@ -166,7 +172,6 @@
     const audioSubtitle = post.querySelector(".audio-subtitle").innerText;
 
     //player elements
-    const audioPlayer = document.getElementById('audioPlayer');
     const player = document.getElementById('player');
     const playerTrackCover = player.querySelector(".track-cover img");
     const trackName = player.querySelector(".track-name");
@@ -176,36 +181,74 @@
 
     player.classList.remove("hidden");
 
-    if (!audioPlayer.paused) {
-      audioPlayer.paused = true;
-    }
-    audioPlayer.src = audioUrl;
     playerTrackCover.src = coverUrl;
-    // playerTrackCover.classList.add("spin");
 
     trackName.innerText = audioTitle;
     trackCreator.innerText = audioSubtitle;
-    // audioPlayer.play();
-    playPause();
+
+    playerTrackCover.classList.add("spin");
+    playerTrackCover.classList.remove("not-spin");
+    playPause.src = "./assets/pause.png"
+
+    //Audio visualizer
+    if (!audioContext) {
+      const audioContextClass = window.AudioContext || window.webkitAudioContext;
+      audioContext = new audioContextClass();
+    } else {
+      // Suspend the existing context if it's running
+      if (audioContext.state === 'running') {
+        audioContext.suspend();
+      }
+    }
+
+    loadAndDecodeAudio(audioUrl)
+      .then(buffer => {
+        loadDuration(buffer.duration);
+        playAudio(buffer)
+      })
+      .catch(error => console.error('Error loading audio:', error));
+  }
+
+  function updateTime() {
+    clearInterval(currentId);
+
+    currentId = setInterval(() => {
+
+      currentTime.innerText = formatTime(current);
+      const animationPercentage = Math.round((current / duration) * 100);
+      trackSlider.style.width = `${animationPercentage}%`;
+      current += 0.1;
+
+      if (parseFloat(current.toFixed(1)) >= parseFloat(duration.toFixed(1))) {
+        stopUpdateTime();
+        nextSong();
+      }
+    }, 100);
+  }
+
+  function stopUpdateTime() {
+    clearInterval(currentId);
   }
 
   function playPause() {
     //player elements
-    const audioPlayer = document.getElementById('audioPlayer');
     const player = document.getElementById('player');
     const playPause = document.querySelector('#play-pause img');
     const playerTrackCover = document.querySelector(".track-cover img");
 
-    if (audioPlayer.paused) {
-      audioPlayer.play();
-      playerTrackCover.classList.add("spin");
-      playerTrackCover.classList.remove("not-spin");
-      playPause.src = "./assets/pause.png"
-    } else {
-      audioPlayer.pause();
+    if (audioContext.state === 'running') {
+      audioContext.suspend().then(() => stopUpdateTime());
       playerTrackCover.classList.add("not-spin");
       playerTrackCover.classList.remove("spin");
       playPause.src = "./assets/play.png"
+    } else {
+      audioContext.resume().then(() => {
+        updateVisualizer();
+        updateTime();
+      });
+      playerTrackCover.classList.add("spin");
+      playerTrackCover.classList.remove("not-spin");
+      playPause.src = "./assets/pause.png";
     }
   }
 
@@ -231,19 +274,26 @@
   }
 
   function moveSong(event) {
-    const player = document.getElementById('player');
-    const audioPlayer = document.getElementById('audioPlayer');
-    const currentTime = player.querySelector("#current-time");
-    const trackSlider = player.querySelector(".animate-track");
-
-    audioPlayer.pause();
-    const animationPercentage = Math.round((event.target.value / audioPlayer.duration) * 100);
-    audioPlayer.currentTime = event.target.value;
-    trackSlider.style.width = `${animationPercentage}%`;
-    audioPlayer.play();
+    if (source) {
+      const prevBuffer = source.buffer;
+      source.stop();
+      stopUpdateTime();
+      source = audioContext.createBufferSource();
+      source.connect(analyser);
+      analyser.connect(audioContext.destination);
+      source.buffer = prevBuffer;
+      source.start(0, event.target.value);
+      current = parseInt(event.target.value);
+      currentTime.innerText = formatTime(current);
+      const animationPercentage = Math.round((current / duration) * 100);
+      trackSlider.style.width = `${animationPercentage}%`;
+      updateTime();
+      // Update visualizer after seeking
+      updateVisualizer();
+    }
   }
 
-  function loadMeta(event) {
+  function loadDuration(audioDuration) {
     const player = document.getElementById('player');
     const currentTime = player.querySelector("#current-time");
     const totalTime = player.querySelector("#total-time");
@@ -252,20 +302,9 @@
     trackSlider.min = 0;
     currentTime.innerText = formatTime(0);
 
-    trackSlider.max = event.target.duration;
-    totalTime.innerText = formatTime(event.target.duration);
-
-  }
-
-  function updateTime(event) {
-    const player = document.getElementById('player');
-    const currentTime = player.querySelector("#current-time");
-    const trackSlider = player.querySelector(".animate-track");
-    const duration = event.target.duration;
-
-    currentTime.innerText = formatTime(event.target.currentTime);
-    const animationPercentage = Math.round((event.target.currentTime / duration) * 100);
-    trackSlider.style.width = `${animationPercentage}%`;
+    duration = audioDuration;
+    trackSlider.max = duration;
+    totalTime.innerText = formatTime(duration);
 
   }
 
@@ -281,6 +320,61 @@
   function closePlayer() {
     const player = document.getElementById('player');
     player.classList.add("hidden");
+  }
+
+  function loadAndDecodeAudio(audioUrl) {
+    return fetch(audioUrl)
+      .then(response => response.arrayBuffer())
+      .then(data => audioContext.decodeAudioData(data));
+  }
+
+  function playAudio(buffer) {
+    current = 0;
+    analyser = audioContext.createAnalyser();
+
+    if (source) {
+      source.stop();
+    }
+
+    source = audioContext.createBufferSource();
+
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+
+    source.buffer = buffer;
+    source.start(0);
+
+    if (audioContext.state !== 'running') {
+      playPause();
+    }
+
+    analyser.fftSize = 256;
+    const bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
+
+    updateTime();
+    updateVisualizer();
+  }
+
+  function updateVisualizer() {
+
+    if (audioContext.state !== 'running') {
+      return;
+    }
+
+    analyser.getByteFrequencyData(dataArray);
+
+    // Calculate the average amplitude
+    const sum = dataArray.reduce((acc, value) => acc + value, 0);
+    const average = sum / dataArray.length;
+
+    const scale = 1 + average / 500;
+    visualizer.style.transform = `scale(${scale > 1 ? scale : 1})`;
+
+
+    cancelAnimationFrame(animationFrameId);
+
+    animationFrameId = requestAnimationFrame(updateVisualizer);
   }
   //dashboard
 </script>

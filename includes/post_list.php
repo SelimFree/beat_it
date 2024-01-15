@@ -58,6 +58,7 @@
     </button>
     <div class="track-cover">
         <img loading="lazy">
+        <div class="visualizer"></div>
     </div>
     <div class="track-info">
         <div class="track-name"></div>
@@ -85,4 +86,3 @@
         </div>
     </div>
 </div>
-<audio id="audioPlayer" onloadedmetadata="loadMeta(event)" ontimeupdate="updateTime(event)" onended="nextSong()"></audio>

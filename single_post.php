@@ -106,6 +106,7 @@ include("./handlers/single_post_process.php")
             </button>
             <div class="track-cover">
                 <img loading="lazy">
+                <div class="visualizer"></div>
             </div>
             <div class="track-info">
                 <div class="track-name"></div>
@@ -133,7 +134,6 @@ include("./handlers/single_post_process.php")
                 </div>
             </div>
         </div>
-        <audio id="audioPlayer" onloadedmetadata="loadMeta(event)" ontimeupdate="updateTime(event)" onended="nextSong()"></audio>
     </div>
     <?php
     include("./includes/footer.php")
