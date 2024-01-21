@@ -8,7 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-uploads
+assets/uploads/user/*
+assets/uploads/post/audio/*
+assets/uploads/post/img/*
 dist
 dist-ssr
 *.local
